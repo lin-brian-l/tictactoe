@@ -1,5 +1,15 @@
 require_relative '../tictactoe'
 
+describe "create_board" do
+  it "creates an empty 3x3 array" do
+  	expect(create_board).to eq [
+  	  [" ", " ", " "],
+  	  [" ", " ", " "],
+  	  [" ", " ", " "]
+  	]
+  end
+end
+
 describe "add_pretty_board_row" do 
   it "prints out a pretty row" do
     board_row = [" ", " ", " "]
@@ -21,9 +31,9 @@ describe "create_pretty_board" do
   end
   it "prints out a board with X's and O's" do
   	board = [
-  	["X", "O", "X"],
-  	[" ", " ", "O"],
-  	[" ", " ", " "]
+  	  ["X", "O", "X"],
+  	  [" ", " ", "O"],
+  	  [" ", " ", " "]
   	]
   	pretty_board = "-------------
 | X | O | X |
@@ -34,4 +44,185 @@ describe "create_pretty_board" do
 -------------"
 	expect(create_pretty_board(board)).to eq pretty_board
   end
+end
+
+describe "x_or_o_in_board" do 
+  it "substitutes an X or O in the proper spot of a small board" do
+  	board = [[" ", " ", " "]]
+  	user_input = "X"
+  	coordinates = [0, 2]
+
+  	expect(x_or_o_in_board(board, user_input, coordinates)).to eq [[" ", " ", "X"]]
+  end
+
+  it "substitutes an X or O in the proper spot of a large board" do
+  	board = [
+  	  ["X", "O", "X"],
+  	  [" ", " ", "O"],
+  	  [" ", " ", " "]
+  	]
+  	user_input = "O"
+  	coordinates = [1, 1]
+
+  	expect(x_or_o_in_board(board, user_input, coordinates)).to eq [
+  	  ["X", "O", "X"],
+  	  [" ", "O", "O"],
+  	  [" ", " ", " "]
+  	]
+  end
+
+  it "stores previous turns" do 
+  	board = [
+  	  ["X", "O", "X"],
+  	  [" ", " ", "O"],
+  	  [" ", " ", " "]
+  	]
+  	user_input_1 = "O"
+  	coordinates_1 = [1, 1]
+  	board = x_or_o_in_board(board, user_input_1, coordinates_1)
+
+  	user_input_2 = "X"
+  	coordinates_2 = [1, 0]
+  	expect(x_or_o_in_board(board, user_input_2, coordinates_2)). to eq [
+  	  ["X", "O", "X"],
+  	  ["X", "O", "O"],
+  	  [" ", " ", " "]
+  	]
+  end
+end
+
+describe "row_win?" do
+  it "returns a row with 3 X's" do 
+	board = [
+  	  ["X", "X", "X"],
+  	  [" ", " ", "O"],
+  	  [" ", " ", " "]
+  	]
+  	expect(row_win?(board)).to eq 0
+  end
+
+  it "returns a row with 3 O's" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "X", " "]
+  	]
+  	expect(row_win?(board)).to eq 1
+  end
+end
+
+describe "column_win?" do
+  it "returns a column with 3 X's" do 
+	board = [
+  	  ["X", "O", "O"],
+  	  ["X", " ", "O"],
+  	  ["X", " ", " "]
+  	]
+  	expect(column_win?(board)).to eq 0
+  end
+
+  it "returns a row with 3 O's" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(column_win?(board)).to eq 1
+  end
+end
+
+describe "xo_ltrt_updn?" do 
+  it "returns true if X's are in a diagonal from left-right up-down" do 
+  	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "X", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(xo_ltrt_updn?(board)).to eq true
+  end
+
+  it "returns false if X's are not in a diagonal from left-right up-down" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(xo_ltrt_updn?(board)).to eq false
+  end 
+
+  it "returns true if O's are in a diagonal from left-right up-down" do 
+      board = [
+		["O", "O", "X"],
+		["O", "O", "O"],
+		[" ", "O", "O"]
+      ]
+      expect(xo_ltrt_updn?(board)).to eq true
+  end
+
+  it "returns false if O's are not in a diagonal from left-right up-down" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(xo_ltrt_updn?(board)).to eq false
+  end 
+
+end
+
+describe "xo_rtlt_dnup?" do 
+  it "returns true if X's are in a diagonal from right-left down-up" do 
+  	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "X", "O"],
+  	  ["X", "O", "X"]
+  	]
+  	expect(xo_rtlt_dnup?(board)).to eq true
+  end
+
+  it "returns false if X's are not in a diagonal from right-left down-up" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(xo_rtlt_dnup?(board)).to eq false
+  end 
+
+  it "returns true if O's are in a diagonal from right-left down-up" do 
+  	board = [
+  	  ["X", "O", "O"],
+  	  ["O", "O", "O"],
+  	  ["O", "O", "O"]
+  	]
+  	expect(xo_rtlt_dnup?(board)).to eq true
+  end
+
+  it "returns false if O's are not in a diagonal from right-left down-up" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(xo_rtlt_dnup?(board)).to eq false
+  end 
+end
+
+describe "diagonal_win?" do
+  it "returns true if O's or X's on a diagonal" do
+	board = [
+  	  ["X", "O", "O"],
+  	  ["O", "O", "O"],
+  	  ["O", "O", "O"]
+  	]
+  	expect(diagonal_win?(board)).to eq true
+  end
+  it "returns false if X's or O's are not in a diagonal" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(diagonal_win?(board)).to eq false
+  end 
 end
