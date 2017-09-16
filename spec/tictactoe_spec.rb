@@ -92,42 +92,60 @@ describe "x_or_o_in_board" do
 end
 
 describe "row_win?" do
-  it "returns a row with 3 X's" do 
+  it "returns true if a row has 3 X's" do 
 	board = [
   	  ["X", "X", "X"],
   	  [" ", " ", "O"],
   	  [" ", " ", " "]
   	]
-  	expect(row_win?(board)).to eq 0
+  	expect(row_win?(board)).to eq true
   end
 
-  it "returns a row with 3 O's" do
+  it "returns true if a row has 3 O's" do
 	board = [
   	  ["X", "O", "X"],
   	  ["O", "O", "O"],
   	  [" ", "X", " "]
   	]
-  	expect(row_win?(board)).to eq 1
+  	expect(row_win?(board)).to eq true
+  end
+
+  it "returns false if no rows have 3 X's or O's" do 
+  	board = [
+  	  ["X", "O", "X"],
+  	  [" ", " ", "O"],
+  	  [" ", " ", " "]
+  	]
+  	expect(row_win?(board)).to eq false
   end
 end
 
 describe "column_win?" do
-  it "returns a column with 3 X's" do 
+  it "returns false if a column has 3 X's" do 
 	board = [
   	  ["X", "O", "O"],
   	  ["X", " ", "O"],
   	  ["X", " ", " "]
   	]
-  	expect(column_win?(board)).to eq 0
+  	expect(column_win?(board)).to eq true
   end
 
-  it "returns a row with 3 O's" do
+  it "returns true if a column has 3 O's" do
 	board = [
   	  ["X", "O", "X"],
   	  ["O", "O", "O"],
   	  [" ", "O", "X"]
   	]
-  	expect(column_win?(board)).to eq 1
+  	expect(column_win?(board)).to eq true
+  end
+
+  it "returns false if no columns have 3 X's or O's" do 
+  	board = [
+  	  ["X", "O", "X"],
+  	  [" ", " ", "O"],
+  	  [" ", " ", " "]
+  	]
+  	expect(column_win?(board)).to eq false
   end
 end
 
@@ -217,6 +235,7 @@ describe "diagonal_win?" do
   	]
   	expect(diagonal_win?(board)).to eq true
   end
+
   it "returns false if X's or O's are not in a diagonal" do
 	board = [
   	  ["X", "O", "X"],
@@ -225,4 +244,42 @@ describe "diagonal_win?" do
   	]
   	expect(diagonal_win?(board)).to eq false
   end 
+end
+
+describe "board_win?" do 
+  it "returns true if a row has 3 X's or O's" do 
+  	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "X", " "]
+  	]
+  	expect(board_win?(board)).to eq true
+  end
+
+  it "returns true if a column has 3 O's" do
+	board = [
+  	  ["X", "O", "X"],
+  	  ["O", "O", "O"],
+  	  [" ", "O", "X"]
+  	]
+  	expect(column_win?(board)).to eq true
+  end
+  
+  it "returns true if O's or X's on a diagonal" do
+	board = [
+  	  ["X", "O", "O"],
+  	  ["O", "O", "O"],
+  	  ["O", "O", "O"]
+  	]
+  	expect(diagonal_win?(board)).to eq true
+  end
+
+  it "returns false if no win conditions are met" do 
+  	board = [
+  	  ["X", "O", "X"],
+  	  [" ", " ", "O"],
+  	  [" ", " ", " "]
+  	]
+  	expect(column_win?(board)).to eq false
+  end
 end

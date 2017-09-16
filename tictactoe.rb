@@ -36,12 +36,19 @@ def x_or_o_in_board(board, user_input, coordinates = [nil, nil])
   board
 end
 
+def board_win?(board)
+  return true if row_win?(board) || column_win?(board) || diagonal_win?(board)
+  false
+end
+
 def row_win?(board)
-  row = board.find_index { |row| row == ["X", "X", "X"] || row == ["O", "O", "O"] }
+  board.each { |row| return true if row == ["X", "X", "X"] || row == ["O", "O", "O"] }
+  false
 end
 
 def column_win?(board)
-  column = board.transpose.find_index { |column| column == ["X", "X", "X"] || column == ["O", "O", "O"] }
+  column = board.transpose.each { |column| return true if column == ["X", "X", "X"] || column == ["O", "O", "O"] }
+  false
 end
 
 def diagonal_win?(board)
