@@ -1,3 +1,41 @@
+require 'remedy'
+include Remedy
+
+def check_input(key, coordinate)
+  valid_input = ["up", "down", "left", "right"]
+  valid_range = (0..2).to_a
+
+  if !valid_input.include?(key.to_s)
+    puts "nope"
+  else
+    if key.to_s == "down" && valid_range.include?(coordinate[0]+1)
+      coordinate[0] += 1
+      p coordinate
+    elsif key.to_s == "up" && valid_range.include?(coordinate[0]-1)
+      coordinate[0] -= 1
+      p coordinate
+    elsif key.to_s == "left" && valid_range.include?(coordinate[1]-1)
+      coordinate[1] -= 1
+      p coordinate
+    elsif key.to_s == "right" && valid_range.include?(coordinate[1]+1)
+      coordinate[1] += 1
+      p coordinate
+    else
+      puts "you done f'd up"
+    end
+  end
+end
+
+def loop_user_input
+  coordinate = [0,0]
+  taken_coordinates = []
+  user_input = Interaction.new
+  user_input.loop do |key|
+    puts key
+    check_input(key, coordinate)
+  end
+end
+
 def create_board
   board = Array.new(3, Array.new(3, " "))
 end
@@ -27,7 +65,7 @@ def add_pretty_board_row(board_row)
   	end
   end
   pretty_row
-end	
+end
 
 def x_or_o_in_board(board, user_input, coordinates = [nil, nil])
   row_index = coordinates[0]
@@ -69,3 +107,9 @@ def xo_rtlt_dnup?(board)
   end
   false
 end
+
+board = create_board
+p board
+board = x_or_o_in_board(board, "X", [0,0])
+p board
+
