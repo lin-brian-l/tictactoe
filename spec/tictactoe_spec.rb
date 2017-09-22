@@ -46,22 +46,21 @@ describe "create_pretty_board" do
   end
 end
 
-describe "x_or_o_in_board" do
+describe "x_or_o_in_board_v1" do
   it "substitutes an X or O in the proper spot of a small board" do
   	board = [[" ", " ", " "]]
   	user_input = "X"
   	coordinates = [0, 2]
 
-  	expect(x_or_o_in_board(board, user_input, coordinates)).to eq [[" ", " ", "X"]]
+  	expect(x_or_o_in_board_v1(board, user_input, coordinates)).to eq [[" ", " ", "X"]]
   end
 
   it "puts an X or O on a blank board" do
     board = create_board
     user_input = "O"
     coordinates = [1,1]
-    board[1][1] = "O"
 
-    expect(board).to eq [
+    expect(x_or_o_in_board_v1(board, user_input, coordinates)).to eq [
       [" ", " ", " "],
       [" ", "O", " "],
       [" ", " ", " "]
@@ -78,7 +77,7 @@ describe "x_or_o_in_board" do
   	user_input = "O"
   	coordinates = [1, 1]
 
-  	expect(x_or_o_in_board(board, user_input, coordinates)).to eq [
+  	expect(x_or_o_in_board_v1(board, user_input, coordinates)).to eq [
   	  ["X", "O", "X"],
   	  [" ", "O", "O"],
   	  [" ", " ", " "]
@@ -93,11 +92,11 @@ describe "x_or_o_in_board" do
   	]
   	user_input_1 = "O"
   	coordinates_1 = [1, 1]
-  	board = x_or_o_in_board(board, user_input_1, coordinates_1)
+  	board = x_or_o_in_board_v1(board, user_input_1, coordinates_1)
 
   	user_input_2 = "X"
   	coordinates_2 = [1, 0]
-  	expect(x_or_o_in_board(board, user_input_2, coordinates_2)). to eq [
+  	expect(x_or_o_in_board_v1(board, user_input_2, coordinates_2)). to eq [
   	  ["X", "O", "X"],
   	  ["X", "O", "O"],
   	  [" ", " ", " "]

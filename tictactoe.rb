@@ -67,10 +67,19 @@ def add_pretty_board_row(board_row)
   pretty_row
 end
 
-def x_or_o_in_board(board, user_input, coordinates = [nil, nil])
+def x_or_o_in_board_v1(board, user_input, coordinates = [nil, nil])
   row_index = coordinates[0]
   column_index = coordinates[1]
   board[row_index][column_index] = user_input
+  board
+end
+
+def x_or_o_in_board_v2(board, user_input, coordinates = [nil, nil])
+  row_index = coordinates[0]
+  column_index = coordinates[1]
+  row = board[row_index].dup
+  row[column_index] = user_input
+  board[row_index] = row
   board
 end
 
@@ -107,9 +116,3 @@ def xo_rtlt_dnup?(board)
   end
   false
 end
-
-board = create_board
-p board
-board = x_or_o_in_board(board, "X", [0,0])
-p board
-
